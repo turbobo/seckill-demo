@@ -1,5 +1,6 @@
 package com.turbo.seckill.controller;
 
+import com.turbo.seckill.config.LoginUser;
 import com.turbo.seckill.pojo.User;
 import com.turbo.seckill.service.IGoodsService;
 import com.turbo.seckill.service.IUserService;
@@ -65,7 +66,7 @@ public class GoodsController {
      * @return
      */
     @RequestMapping("/toList")
-    public String toList(Model model, User user){
+    public String toList(Model model, @LoginUser User user){
         model.addAttribute("user",user);
         model.addAttribute("goodsList",goodsService.findGoodsVo());
         return "goodsList";

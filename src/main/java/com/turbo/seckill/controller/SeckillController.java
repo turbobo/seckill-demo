@@ -2,6 +2,7 @@ package com.turbo.seckill.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sun.org.apache.xpath.internal.operations.Or;
+import com.turbo.seckill.config.LoginUser;
 import com.turbo.seckill.pojo.Order;
 import com.turbo.seckill.pojo.SeckillOrder;
 import com.turbo.seckill.pojo.User;
@@ -32,7 +33,7 @@ public class SeckillController {
     IOrderService orderService;
 
     @RequestMapping("/doSeckill")
-    public String doSeckill(Model model, User user, Long goodsId){
+    public String doSeckill(Model model, @LoginUser User user, Long goodsId){
         if(null == user){
             return "login";
         }
