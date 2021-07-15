@@ -61,6 +61,10 @@ public class GoodsController {
     /**
      * 自定义webconfig、参数解析器UserArgumentResolver
      * 商品列表  -- 获得用户信息之前已经判断
+     *
+     * windows 优化前：压测  30000次  qps：385.1
+     * linux 优化前：压测  30000次  qps：496
+     *
      * @param model
      * @param user
      * @return
