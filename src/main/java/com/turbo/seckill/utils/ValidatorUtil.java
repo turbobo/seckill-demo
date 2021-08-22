@@ -12,7 +12,10 @@ import java.util.regex.Pattern;
  */
 public class ValidatorUtil {
 
-    private static final Pattern mobile_pattern = Pattern.compile("[1]([3-9])[0-9]{9}$");
+//    private static final Pattern mobile_pattern = Pattern.compile("[1]([3-9])[0-9]{9}$");
+
+    //手机号只要是数字构成就行
+    private static final Pattern mobile_pattern = Pattern.compile("^[0-9]+.?[0-9]*$");
 
     public static boolean isMobile(String mobile){
         if(StringUtils.isEmpty(mobile)){

@@ -31,6 +31,10 @@
             <td colspan="2" th:text="${order.goodsPrice}"></td>
         </tr>
         <tr>
+            <td>下单时间</td>
+            <td colspan="2" th:text="${#dates.format(order.createDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+        <tr>
             <td>订单状态</td>
             <td>
                 <span th:if="${order.status eq 0}">未支付</span>

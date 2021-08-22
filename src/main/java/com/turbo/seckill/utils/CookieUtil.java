@@ -168,7 +168,7 @@ public final class CookieUtil {
             }
             if(null != request){ //设置域名的cookie
                 String domainName = getDomainName(request);
-                System.out.println(domainName);
+//                System.out.println(domainName);
                 if(!"localhost".equals(domainName)){
                     cookie.setDomain(domainName);
                 }
