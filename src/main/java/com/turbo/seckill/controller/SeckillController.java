@@ -1,6 +1,7 @@
 package com.turbo.seckill.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.turbo.seckill.config.AccessLimit;
 import com.turbo.seckill.config.LoginUser;
 import com.turbo.seckill.exception.GlobalException;
 import com.turbo.seckill.pojo.Order;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
@@ -219,12 +221,25 @@ public class SeckillController implements InitializingBean {
 
     }
 
+    @AccessLimit(seconds=5,maxCount=5,needLogin=true)
     @RequestMapping(value = "/path", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseBean getPath(@LoginUser User user, Long goodsId, String captcha) {
+    public ResponseBean getPath(@LoginUser User user, Long goodsId, String captcha, HttpServletRequest request) {
         if (user == null) {
             return ResponseBean.error(ResponseBeanEnum.SESSION_ERROR);
         }
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+       /* //限流--限制访问次数：5秒内访问5次
+        String uri = request.getRequestURI();
+        captcha = "0";
+        Integer count = (Integer) valueOperations.get(uri + ":" + user.getId());
+        if (null == count) {
+            valueOperations.set(uri + ":" + user.getId(), 1, 5, TimeUnit.SECONDS);
+        } else if (count < 5) {
+            valueOperations.increment(uri + ":" + user.getId());
+        } else {  //计数器已经大于5
+            return ResponseBean.error(ResponseBeanEnum.ACCESS_LIMIT_REACHED);
+        }*/
         //校验验证码
         boolean check = orderService.checkCpatcha(user, goodsId, captcha);
         if (!check) {
