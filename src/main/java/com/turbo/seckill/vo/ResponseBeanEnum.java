@@ -33,7 +33,10 @@ public enum ResponseBeanEnum {
     ACCESS_LIMIT_REACHED(500504,"访问过于频繁，请稍后重试"),
 
     //订单模块5003xx
-    ORDER_NOT_EXISTS(500300,"订单信息不存在")
+    ORDER_NOT_EXISTS(500300,"订单信息不存在"),
+
+    //安全优化
+    FREQUENT_REQUESTS(500600,"令牌桶：访问过于频繁，请稍后重试")
     ;
 
     private long code;

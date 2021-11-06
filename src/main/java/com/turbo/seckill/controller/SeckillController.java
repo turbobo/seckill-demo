@@ -3,6 +3,7 @@ package com.turbo.seckill.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.turbo.seckill.config.AccessLimit;
 import com.turbo.seckill.config.LoginUser;
+import com.turbo.seckill.config.RequestRateLimitAnnotation;
 import com.turbo.seckill.exception.GlobalException;
 import com.turbo.seckill.pojo.Order;
 import com.turbo.seckill.pojo.SeckillMessage;
@@ -221,7 +222,8 @@ public class SeckillController implements InitializingBean {
 
     }
 
-    @AccessLimit(seconds=5,maxCount=5,needLogin=true)
+//    @AccessLimit(seconds = 5, maxCount = 5, needLogin = true)   //计数器限流
+    @RequestRateLimitAnnotation(limitNum = 1, timeout = 10)  //10ms没有获取到令牌，则失败，每秒长生1个令牌
     @RequestMapping(value = "/path", method = RequestMethod.GET)
     @ResponseBody
     public ResponseBean getPath(@LoginUser User user, Long goodsId, String captcha, HttpServletRequest request) {
@@ -249,6 +251,8 @@ public class SeckillController implements InitializingBean {
         return ResponseBean.success(str);
     }
 
+    @RequestRateLimitAnnotation(limitNum = 1, timeout = 10)  //10ms没有获取到令牌，则失败，每秒长生1个令牌
+//    @AccessLimit(seconds = 5, maxCount = 5, needLogin = true)   //计数器限流
     @RequestMapping(value = "/captcha", method = RequestMethod.GET)
     public void captcha(@LoginUser User user, Long goodsId, HttpServletResponse response) {
         if (null == user || goodsId < 0) {

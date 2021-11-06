@@ -33,6 +33,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 
     /**
      * 需要将拦截器放到 MVC中，webconfig中
+     *
      * @param request
      * @param response
      * @param handler
@@ -63,10 +64,10 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
             Integer count = (Integer) valueOperations.get(uri);
             if (null == count) {
                 //初始化
-                valueOperations.set(uri,1,seconds, TimeUnit.SECONDS);
-            }else if(count<maxCount){  //时间段内请求还未达到最大值
+                valueOperations.set(uri, 1, seconds, TimeUnit.SECONDS);
+            } else if (count < maxCount) {  //时间段内请求还未达到最大值
                 valueOperations.increment(uri);
-            }else{
+            } else {
                 render(response, ResponseBeanEnum.ACCESS_LIMIT_REACHED);
                 return false;
             }
